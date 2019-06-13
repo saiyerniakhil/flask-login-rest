@@ -56,6 +56,6 @@ def login():
         res = {'result':' success user found'}
     else:
         res = {'result':'error, user not found'}
-
+    conn.close()
     return jsonify(res)
 
