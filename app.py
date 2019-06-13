@@ -33,10 +33,12 @@ def signup():
         conn = sqlite3.connect("users.db")
         cur = conn.cursor()
         cur.execute("""INSERT INTO logins (username,password) VALUES (?,?)""",(username,password))
-        res = {"message":"sign up success"}
         conn.commit()
+        conn.close()
+        res = {"message":"sign up success"}
     except:
         res = {"message":"sign up failed"}
+
     return jsonify(res)
 
 
@@ -52,10 +54,11 @@ def login():
             SELECT * FROM logins WHERE username=?
         ''',(username,))
     data = cur.fetchall()
+    conn.close()
     if (not(len(data) == 0)):
         res = {'result':' success user found'}
     else:
         res = {'result':'error, user not found'}
-    conn.close()
+    
     return jsonify(res)
 
